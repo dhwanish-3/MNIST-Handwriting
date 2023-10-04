@@ -6,8 +6,9 @@ LIB_DATA = libdata.so
 
 all: main
 
-main: src/knn.cc
-	$(CC) $(CFLAGS) src/knn.cc -o main -L../lib/ -I./include -I../include -ldata
+#Windows
+# main: src/knn.cc
+# 	$(CC) $(CFLAGS) "C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\KNN\src\knn.cc" -o main -L"C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\lib" -I"C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\KNN\include" -I"C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\include" -ldata
 
 clean:
 	rm main

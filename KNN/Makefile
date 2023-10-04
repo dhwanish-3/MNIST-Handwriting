@@ -1,14 +1,14 @@
-CC = g++
-SRC = ./src
-INCLUDE_DIR = ./include
-CFLAGS = -std=c++11 -DEUCLID
-LIB_DATA = libdata.so
+CC=g++
+KNN_ROOT := $(PWD)
+MNIST_ML_ROOT := $(KNN_ROOT)/../../MNIST_Handwriting
+SRC := $(KNN_ROOT)/src
+CFLAGS := -std=c++11 -DEUCLID
+INCLUDE_DIR := $(KNN_ROOT)/include/
 
 all: main
 
-#Windows
-# main: src/knn.cc
-# 	$(CC) $(CFLAGS) "C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\KNN\src\knn.cc" -o main -L"C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\lib" -I"C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\KNN\include" -I"C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\include" -ldata
+main : $(SRC)/knn.cc
+	$(CC) $(CFLAGS) $(SRC)/knn.cc -o main -L$(MNIST_ML_ROOT)/lib/ -I$(INCLUDE_DIR) -I$(MNIST_ML_ROOT)/include -ldata
 
 clean:
 	rm main

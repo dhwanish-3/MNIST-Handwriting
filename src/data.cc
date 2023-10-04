@@ -26,6 +26,10 @@ void Data::set_distance(double val){
     distance = val;
 }
 
+double Data::get_distance(){
+    return distance;
+}
+
 int Data::get_feature_vector_size(){
     return feature_vector->size();
 }

@@ -1,5 +1,6 @@
 #include "../include/knn.hpp"
 #include <iostream>
+#include <queue>
 #include <cmath>
 #include <limits>
 #include <map>
@@ -18,37 +19,57 @@ kNN::~kNN() {
     // Nothing to do
 }
 
+struct compare {
+    bool operator()(Data* d1, Data* d2) {
+        return d1->get_distance() > d2->get_distance();
+    }
+};
+
 void kNN::find_k_nearest_neighbours(Data* query_point) {
     neighbours = new vector<Data*>();
     double min = numeric_limits<double>::max();
     double prev_min = min;
     int index = 0;
+
+    // inefficient implementation
+    // for (int i = 0; i < k; i++) {
+    //     if (i == 0) {
+    //         for (int j = 0; j < training_data->size(); j++) {
+    //             double distance = calculate_distance(query_point, training_data->at(j));
+    //             training_data->at(j)->set_distance(distance);
+    //             if (distance < min) {
+    //                 min = distance;
+    //                 index = j;
+    //             }
+    //         }
+    //         neighbours->push_back(training_data->at(index));
+    //         prev_min = min;
+    //         min = numeric_limits<double>::max();
+    //     } else {
+    //         for (int j = 0; j < training_data->size(); i++) {
+    //             double distance = calculate_distance(query_point, training_data->at(j));
+    //             training_data->at(j)->set_distance(distance);
+    //             if (distance < min && distance > prev_min) {
+    //                 min = distance;
+    //                 index = j;
+    //             }
+    //         }
+    //         neighbours->push_back(training_data->at(index));
+    //         prev_min = min;
+    //         min = numeric_limits<double>::max();
+    //     }
+    // }
+
+    // doing the same thing done above using priority queue
+    priority_queue<Data*, vector<Data*>, compare> pq;
+    for (int i = 0; i < training_data->size(); i++) {
+        double distance = calculate_distance(query_point, training_data->at(i));
+        training_data->at(i)->set_distance(distance);
+        pq.push(training_data->at(i));
+    }
     for (int i = 0; i < k; i++) {
-        if (i == 0) {
-            for (int j = 0; j < training_data->size(); j++) {
-                double distance = calculate_distance(query_point, training_data->at(j));
-                training_data->at(j)->set_distance(distance);
-                if (distance < min) {
-                    min = distance;
-                    index = j;
-                }
-            }
-            neighbours->push_back(training_data->at(index));
-            prev_min = min;
-            min = numeric_limits<double>::max();
-        } else {
-            for (int j = 0; j < training_data->size(); i++) {
-                double distance = calculate_distance(query_point, training_data->at(j));
-                training_data->at(j)->set_distance(distance);
-                if (distance < min && distance > prev_min) {
-                    min = distance;
-                    index = j;
-                }
-            }
-            neighbours->push_back(training_data->at(index));
-            prev_min = min;
-            min = numeric_limits<double>::max();
-        }
+        neighbours->push_back(pq.top());
+        pq.pop();
     }
 }
 void kNN::set_training_data(vector<Data*>* vect) {
@@ -97,7 +118,19 @@ double kNN::calculate_distance(Data* query_point, Data* input) {
         }
         distance = sqrt(distance);
     #elif defined MANHATTAN
-    // put manhattan implementation here
+        for (unsigned i = 0; i < query_point->get_feature_vector_size(); i++) {
+            distance += abs(query_point->get_feature_vector()->at(i) - input->get_feature_vector()->at(i));
+        }
+    #elif defined CHEBYSHEV
+        for (unsigned i = 0; i < query_point->get_feature_vector_size(); i++) {
+            double temp = abs(query_point->get_feature_vector()->at(i) - input->get_feature_vector()->at(i));
+            if (temp > distance) {
+                distance = temp;
+            }
+        }
+    #else
+        cout << "Error: No distance metric defined" << endl;
+        exit(1);
     #endif
     return distance;
 }
@@ -115,7 +148,7 @@ double kNN::validate_performance() {
             count++;
         }
         data_index++; 
-        cout << "Current performance" << ((double)((count * 100) / data_index)) << endl;
+        cout << "Current performance " << ((double)((count * 100) / data_index)) << endl;
     }
     curr_performance = ((double)((count * 100) / validation_data->size()));
     cout << "Validation performance for k = " << k << " : " << curr_performance << endl;
@@ -150,17 +183,20 @@ int main () {
     knn->set_validation_data(dh->get_validation_data());
     double performance = 0;
     double best_performance = 0;
-    int best_k = 0;
-    for (int i = 1; i <= 10; i++) {
-        knn->set_k(i);
-        performance = knn->validate_performance();
-        if (performance > best_performance) {
-            best_performance = performance;
-            best_k = i;
-        }
-    }
-    cout << "Best k: " << best_k << endl;
+    int best_k = 10;
     knn->set_k(best_k);
-    knn->test_performance();
+    performance = knn->validate_performance();
+    cout << "performance : " << performance << endl;
+    // for (int i = 1; i <= 10; i++) {
+    //     knn->set_k(i);
+    //     performance = knn->validate_performance();
+    //     if (performance > best_performance) {
+    //         best_performance = performance;
+    //         best_k = i;
+    //     }
+    // }
+    // cout << "Best k: " << best_k << endl;
+    // knn->set_k(best_k);
+    // knn->test_performance();
     return 0;
 }

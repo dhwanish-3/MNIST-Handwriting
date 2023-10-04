@@ -19,6 +19,7 @@ class Data{
     void set_label(uint8_t);
     void set_enumeric_label(int);
     void set_distance(double);
+    double get_distance();
 
     int get_feature_vector_size();
     uint8_t get_label();

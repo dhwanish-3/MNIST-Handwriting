@@ -143,11 +143,11 @@ vector<Data*> * DataHandler::get_validation_data(){
 }
 
 
-int main(){
-    DataHandler* data_handler=new DataHandler();
-    data_handler->read_feature_vector("data/train-images.idx3-ubyte");
-    data_handler->read_feature_label("data/train-labels.idx1-ubyte");
-    data_handler->split_data();
-    data_handler->count_classes();
-    return 0;
-}
+// int main(){
+//     DataHandler* data_handler=new DataHandler();
+//     data_handler->read_feature_vector("data/train-images.idx3-ubyte");
+//     data_handler->read_feature_label("data/train-labels.idx1-ubyte");
+//     data_handler->split_data();
+//     data_handler->count_classes();
+//     return 0;
+// }

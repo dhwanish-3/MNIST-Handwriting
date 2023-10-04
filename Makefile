@@ -1,8 +1,8 @@
-MNIST_ML_ROOT := $(shell pwd)
+MNIST_ML_ROOT := $(PWD)
 CC := g++
 INCLUDE_DIR := ./include
 SRC := ./src
-CFLAGS := -std=c++11 -g
+CFLAGS := -shared -std=c++11 -g
 LIB_DATA := libdata.so
 
 all: $(LIB_DATA)
@@ -24,5 +24,5 @@ obj/data.o: $(SRC)/data.cc
 	$(CC) -fPIC $(CFLAGS) -o ./obj/data.o -I$(INCLUDE_DIR) -c ./src/data.cc
 
 clean:
-	rm -r lib
-	rm -r obj
+	rm -r "C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\lib"
+	rm -r "C:\Users\dhwan\Documents\Programming\C++ Programming\Machine Learning\MNIST Handwriting\obj"

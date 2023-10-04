@@ -22,6 +22,10 @@ void Data::set_enumeric_label(int val){
     enum_label=val;
 }
 
+void Data::set_distance(double val){
+    distance = val;
+}
+
 int Data::get_feature_vector_size(){
     return feature_vector->size();
 }

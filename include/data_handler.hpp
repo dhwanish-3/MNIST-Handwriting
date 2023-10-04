@@ -1,7 +1,10 @@
 #ifndef __DATA_HANDLER_H
 #define __DATA_HANDLER_H
 
-#include <bits/stdc++.h>
+#include <vector>
+#include <map>
+#include <stdint.h>
+#include <string>
 #include "data.hpp"
 using namespace std;
 

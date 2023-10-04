@@ -106,10 +106,12 @@ double kNN::validate_performance() {
     double curr_performance = 0;
     int count = 0;
     int data_index = 0;
-    for (int i = 0; i < validation_data->size(); i++) {
-        find_k_nearest_neighbours(validation_data->at(i));
+    for (Data* query_point : *validation_data) {
+        find_k_nearest_neighbours(query_point);
         int prediction = predict();
-        if (prediction == validation_data->at(i)->get_label()) {
+        cout << prediction << " -> ";
+        printf("%d\n", query_point->get_label());
+        if (prediction == query_point->get_label()) {
             count++;
         }
         data_index++; 
@@ -137,8 +139,9 @@ double kNN::test_performance() {
 
 int main () {
     DataHandler* dh = new DataHandler();
-    dh->read_feature_vector("data/train-images.idx3-ubyte");
-    dh->read_feature_label("data/train-labels.idx1-ubyte");
+    cout << "Reading data..." << endl;
+    dh->read_feature_vector("../data/train-images.idx3-ubyte");
+    dh->read_feature_label("../data/train-labels.idx1-ubyte");
     dh->split_data();
     dh->count_classes();
     kNN* knn = new kNN();

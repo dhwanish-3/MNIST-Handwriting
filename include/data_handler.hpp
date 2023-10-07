@@ -33,6 +33,7 @@ class DataHandler{
 
     uint32_t convert_to_little_endian(const unsigned char* bytes);
 
+    int get_num_classes();
     vector<Data*> * get_training_data();
     vector<Data*> * get_test_data();
     vector<Data*> * get_validation_data();

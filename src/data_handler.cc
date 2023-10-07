@@ -132,6 +132,10 @@ uint32_t DataHandler::convert_to_little_endian(const unsigned char* bytes){
     return (uint32_t)((bytes[0]<<24) | (bytes[1]<<16) | (bytes[2]<<8) | (bytes[3]));
 }
 
+int DataHandler::get_num_classes(){
+    return num_classes;
+}
+
 vector<Data*> * DataHandler::get_training_data(){
     return training_data;
 }

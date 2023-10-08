@@ -17,6 +17,7 @@ class DataHandler{
     int num_classes;
     int feature_vector_size;
     map<uint8_t,int> class_map;
+    map<string,int> classMap;
 
     const double TRAIN_SET_PERCENT=0.75;
     const double TEST_SET_PERCENT=0.20;
@@ -26,6 +27,7 @@ class DataHandler{
     DataHandler();
     ~DataHandler();
 
+    void read_csv(string path, string delimiter);
     void read_feature_vector(string path);
     void read_feature_label(string path);
     void split_data();
